@@ -6,7 +6,7 @@
 /*   By: juhypark <juhypark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 15:05:57 by juhypark          #+#    #+#             */
-/*   Updated: 2022/12/24 17:03:40 by juhypark         ###   ########.fr       */
+/*   Updated: 2022/12/26 16:40:24 by juhypark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # endif
 
 char	*ft_extract(char *line);
-char	*ft_read_line(int fd, char *buf, char *backup);
+char	*ft_read_line(int fd, char *buf, char *backup, int *flag);
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *src);
 char	*ft_strjoin(char const *s1, char const *s2);

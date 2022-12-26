@@ -47,28 +47,32 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (new_mem);
 }
 
-char	*ft_read_line(int fd, char *buf, char *backup)
+char	*ft_read_line(int fd, char *buf, char *backup, int *flag)
 {
 	int		count;
-	char	*temp_pointer;
+	char	*temp;
 
 	count = 1;
 	while (count)
 	{
 		count = read(fd, buf, BUFFER_SIZE);
 		if (count == -1)
-			return (0);
+		{
+			free(backup);
+			flag = 0;
+			return (NULL);
+		}
 		else if (count == 0)
 			break ;
 		buf[count] = '\0';
 		if (!backup)
 			backup = ft_strdup("");
-		temp_pointer = backup;
-		backup = ft_strjoin(temp_pointer, buf);
+		temp = backup;
+		backup = ft_strjoin(temp, buf);
 		if (!backup)
 			return (NULL);
-		free (temp_pointer);
-		temp_pointer = NULL;
+		free (temp);
+		temp = NULL;
 		if (ft_strchr(buf, '\n'))
 			break ;
 	}
@@ -81,10 +85,10 @@ char	*ft_extract(char *line)
 	char	*result;
 
 	i = 0;
-	while (line[i] != '\n' && line[i] != '\0')
-	i++;
 	if (line[i] == '\0')
-		return (0);
+		return (NULL);
+	while (line[i] != '\n' && line[i] != '\0')
+		i++;
 	result = ft_substr(line, i + 1, ft_strlen(line) - i);
 	if (!result)
 		return (NULL);
@@ -103,16 +107,20 @@ char	*get_next_line(int fd)
 	char			*line;
 	char			*buf;
 	static char		*backup;
+	int				flag;
 
+	flag = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	line = ft_read_line(fd, buf, backup);
+	line = ft_read_line(fd, buf, backup, &flag);
 	free(buf);
 	buf = NULL;
 	if (!line)
+		return (NULL);
+	if (flag == 0)
 		return (NULL);
 	backup = ft_extract(line);
 	return (line);
