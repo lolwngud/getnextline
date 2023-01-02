@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juhypark <juhypark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/27 15:01:30 by juhypark          #+#    #+#             */
-/*   Updated: 2022/12/29 16:49:02 by juhypark         ###   ########.fr       */
+/*   Created: 2022/12/29 13:59:09 by juhypark          #+#    #+#             */
+/*   Updated: 2022/12/29 16:43:26 by juhypark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *s)
 {
@@ -42,30 +42,30 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char *backup, char *buff)
+char	*ft_strjoin(char *left_str, char *buff)
 {
 	size_t	i;
 	size_t	j;
 	char	*str;
 
-	if (!backup)
+	if (!left_str)
 	{
-		backup = (char *)malloc(1 * sizeof(char));
-		backup[0] = '\0';
+		left_str = (char *)malloc(1 * sizeof(char));
+		left_str[0] = '\0';
 	}
-	if (!backup || !buff)
+	if (!left_str || !buff)
 		return (NULL);
-	str = malloc(sizeof(char) * ((ft_strlen(backup) + ft_strlen(buff)) + 1));
+	str = malloc(sizeof(char) * ((ft_strlen(left_str) + ft_strlen(buff)) + 1));
 	if (str == NULL)
 		return (NULL);
 	i = -1;
 	j = 0;
-	if (backup)
-		while (backup[++i] != '\0')
-			str[i] = backup[i];
+	if (left_str)
+		while (left_str[++i] != '\0')
+			str[i] = left_str[i];
 	while (buff[j] != '\0')
 		str[i++] = buff[j++];
-	str[ft_strlen(backup) + ft_strlen(buff)] = '\0';
-	free(backup);
+	str[ft_strlen(left_str) + ft_strlen(buff)] = '\0';
+	free(left_str);
 	return (str);
 }

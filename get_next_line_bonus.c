@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juhypark <juhypark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/27 15:01:45 by juhypark          #+#    #+#             */
-/*   Updated: 2022/12/29 16:41:26 by juhypark         ###   ########.fr       */
+/*   Created: 2022/12/29 13:58:59 by juhypark          #+#    #+#             */
+/*   Updated: 2022/12/29 16:50:02 by juhypark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_get_line(char *backup)
 {
@@ -93,24 +93,24 @@ int	ft_read_backup(int fd, char **backup)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*backup;
+	static char	*backup[4096];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!ft_read_backup(fd, &backup))
+	if (!ft_read_backup(fd, &backup[fd]))
 	{
-		if (backup)
-			free(backup);
-		backup = NULL;
+		if (backup[fd])
+			free(backup[fd]);
+		backup[fd] = NULL;
 		return (NULL);
 	}
-	line = ft_get_line(backup);
+	line = ft_get_line(backup[fd]);
 	if (line == NULL)
 	{
-		free(backup);
-		backup = NULL;
+		free(backup[fd]);
+		backup[fd] = NULL;
 		return (NULL);
 	}
-	backup = ft_new_backup(backup);
+	backup[fd] = ft_new_backup(backup[fd]);
 	return (line);
 }
